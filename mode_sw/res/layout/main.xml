@@ -7,7 +7,7 @@
 
               android:layout_height="match_parent"
 
-              android:orientation="vertical" >
+              android:orientation="vertical">
 
     <Button
             android:layout_width="wrap_content"
