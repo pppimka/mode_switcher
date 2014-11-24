@@ -8,16 +8,20 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TimePicker;
 
 import java.util.Calendar;
 
-
 public class MyActivity extends Activity {
+
+    TimePicker TPSilence;
+    TimePicker TPUnsilence;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+
 
         Button schedule = (Button) findViewById(R.id.start);
         Button unschedule = (Button) findViewById(R.id.end);
@@ -26,6 +30,10 @@ public class MyActivity extends Activity {
 
             @Override
             public void onClick(View arg0) {
+
+
+                TPSilence = (TimePicker) findViewById(R.id.SetSilenceTime);
+                TPUnsilence = (TimePicker) findViewById(R.id.SetUnsilenceTime);
 
                 /**
                  * create new calendar instance

@@ -5,9 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
 
-/**
- * Created by ann_ on 23.11.2014.
- */
 public class SilenceBroadcastReceiver extends BroadcastReceiver {
 
     @Override
