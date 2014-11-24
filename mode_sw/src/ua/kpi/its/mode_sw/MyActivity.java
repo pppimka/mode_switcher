@@ -9,9 +9,14 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import android.widget.TimePicker;
+
 import java.util.Calendar;
 
 public class MyActivity extends Activity {
+
+    TimePicker TPSilence;
+    TimePicker TPUnsilence;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -26,6 +31,8 @@ public class MyActivity extends Activity {
             @Override
             public void onClick(View arg0) {
 
+                TPSilence = (TimePicker) findViewById(R.id.SetSilenceTime);
+                TPUnsilence = (TimePicker) findViewById(R.id.SetUnsilenceTime);
 /**
  * create new calendar instance
  */
@@ -34,10 +41,9 @@ public class MyActivity extends Activity {
 /**
  * set the time to midnight tonight
  */
-                midnightCalendar.set(Calendar.HOUR_OF_DAY, 23);
-                midnightCalendar.set(Calendar.MINUTE, 0);
-                midnightCalendar.set(Calendar.SECOND, 0);
-
+                midnightCalendar.set(Calendar.HOUR_OF_DAY, TPSilence.getCurrentHour());
+                midnightCalendar.set(Calendar.MINUTE, TPSilence.getCurrentMinute());
+                midnightCalendar.set(Calendar.SECOND, 00);
 /**
  * create new alarm manager instance
  *
@@ -60,8 +66,8 @@ public class MyActivity extends Activity {
 /**
  * set the time to 6AM
  */
-                sixCalendar.set(Calendar.HOUR_OF_DAY, 7);
-                sixCalendar.set(Calendar.MINUTE, 0);
+                sixCalendar.set(Calendar.HOUR_OF_DAY, TPUnsilence.getCurrentHour());
+                sixCalendar.set(Calendar.MINUTE, TPUnsilence.getCurrentMinute());
                 sixCalendar.set(Calendar.SECOND, 0);
 
 /**
@@ -74,8 +80,12 @@ public class MyActivity extends Activity {
  * schedule time for pending intent, and set the interval to day so that this event will repeat at the selected time every day
  */
                 am.setRepeating(AlarmManager.RTC_WAKEUP, sixCalendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, sixPI);
+
             }
         });
     }
+
+
+
 }
 
