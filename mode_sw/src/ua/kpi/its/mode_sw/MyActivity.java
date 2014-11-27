@@ -5,6 +5,7 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -16,6 +17,9 @@ public class MyActivity extends Activity {
 
     TimePicker TPSilence;
     TimePicker TPUnsilence;
+    SharedPreferences preferences;
+    final String TIME_START = "time_start";
+    final String TIME_END = "time_end";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -35,6 +39,12 @@ public class MyActivity extends Activity {
                 TPSilence = (TimePicker) findViewById(R.id.SetSilenceTime);
                 TPUnsilence = (TimePicker) findViewById(R.id.SetUnsilenceTime);
 
+                preferences = getSharedPreferences("goodnight", MODE_PRIVATE);
+
+                SharedPreferences.Editor ed = preferences.edit();
+                ed.putString(TIME_START, TPSilence.getCurrentHour() + ":" + TPSilence.getCurrentMinute());
+                ed.putString(TIME_END, TPUnsilence.getCurrentHour() + ":" + TPUnsilence.getCurrentMinute());
+                ed.commit();
                 /**
                  * create new calendar instance
                  */
@@ -43,8 +53,8 @@ public class MyActivity extends Activity {
                 /**
                  * set the time to midnight tonight
                  */
-                midnightCalendar.set(Calendar.HOUR_OF_DAY, 21);
-                midnightCalendar.set(Calendar.MINUTE, 28);
+                midnightCalendar.set(Calendar.HOUR_OF_DAY, TPSilence.getCurrentHour());
+                midnightCalendar.set(Calendar.MINUTE, TPSilence.getCurrentMinute());
                 midnightCalendar.set(Calendar.SECOND, 0);
 
                 /**
@@ -68,8 +78,8 @@ public class MyActivity extends Activity {
                 /**
                  * set the time to 6AM
                  */
-                sixCalendar.set(Calendar.HOUR_OF_DAY, 21);
-                sixCalendar.set(Calendar.MINUTE, 28);
+                sixCalendar.set(Calendar.HOUR_OF_DAY, TPUnsilence.getCurrentHour());
+                sixCalendar.set(Calendar.MINUTE, TPUnsilence.getCurrentMinute());
                 sixCalendar.set(Calendar.SECOND, 15);
 
                 /**
@@ -96,6 +106,11 @@ public class MyActivity extends Activity {
                  */
                 AlarmManager am = (AlarmManager) MyActivity.this.getSystemService(ALARM_SERVICE);
 
+                preferences = getSharedPreferences("goodnight", MODE_PRIVATE);
+                SharedPreferences.Editor ed = preferences.edit();
+                ed.putString(TIME_START, "Time is not set");
+                ed.putString(TIME_END, "Time is not set");
+                ed.commit();
                 /**
                  * build intent for midnight
                  */

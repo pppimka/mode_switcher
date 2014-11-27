@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">mode_switcher</string>
+    <string name="startMessage"/>
+    <string name="change_settings">Go to change settings</string>
+    <string name="turnOn">Turn On ModeSwitcher</string>
+    <string name="turnOff">Turn Off ModeSwitcher</string>
+
 </resources>
