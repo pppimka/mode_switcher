@@ -2,8 +2,11 @@
 <resources>
     <string name="app_name">mode_switcher</string>
     <string name="startMessage"/>
-    <string name="change_settings">Go to change settings</string>
+    <string name="changeSettings">Go to change settings</string>
     <string name="turnOn">Turn On ModeSwitcher</string>
     <string name="turnOff">Turn Off ModeSwitcher</string>
-
+    <string name="startTime">Set time of start</string>
+    <string name="endTime">Set time of end</string>
+    <string name="firstPageTextStart">Time of start</string>
+    <string name="firstPageTextEnd">Time of end</string>
 </resources>

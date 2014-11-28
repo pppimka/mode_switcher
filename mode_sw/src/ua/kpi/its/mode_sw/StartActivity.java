@@ -17,8 +17,11 @@ public class StartActivity extends Activity {
     TextView timeStart;
     TextView timeEnd;
     SharedPreferences preferences;
-    final String TIME_START = "time_start";
-    final String TIME_END = "time_end";
+    final String TIME_START_HOUR = "time_start_hour";
+    final String TIME_START_MINUTE = "time_start_minute";
+    final String TIME_END_HOUR = "time_end_hour";
+    final String TIME_END_MINUTE = "time_end_minute";
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -33,6 +36,10 @@ public class StartActivity extends Activity {
         changeSettings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
+
+                /**
+                 * Go to activity where user can set it's own settings
+                 */
                 Intent intent = new Intent(StartActivity.this, MyActivity.class);
                 startActivity(intent);
             }
@@ -41,10 +48,25 @@ public class StartActivity extends Activity {
 
     protected void onResume() {
         super.onResume();
+
+        /**
+         * Show user's settings in case they are set
+         * in other way there is no information to be shown
+         */
         preferences = getSharedPreferences("goodnight", MODE_PRIVATE);
-        String stringStart = preferences.getString(TIME_START, "Time's not set");
-        String stringEnd = preferences.getString(TIME_END, "Time's not set");
-        timeStart.setText(stringStart);
-        timeEnd.setText(stringEnd);
+        if(preferences.contains(TIME_START_HOUR) && preferences.contains(TIME_START_MINUTE)
+                && preferences.contains(TIME_END_HOUR) && preferences.contains(TIME_END_MINUTE)) {
+            int intStartHour = preferences.getInt(TIME_START_HOUR, 0);
+            int intStartMinute = preferences.getInt(TIME_START_MINUTE, 0);
+            int intEndHour = preferences.getInt(TIME_END_HOUR, 0);
+            int intEndMinute = preferences.getInt(TIME_END_MINUTE, 0);
+            String stringStart = intStartHour + ":" + intStartMinute;
+            String stringEnd = intEndHour + ":" + intEndMinute;
+            timeStart.setText(stringStart);
+            timeEnd.setText(stringEnd);
+        } else {
+            timeStart.setText("-");
+            timeEnd.setText("-");
+        }
     }
 }

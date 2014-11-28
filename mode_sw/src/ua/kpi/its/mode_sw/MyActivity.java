@@ -18,8 +18,10 @@ public class MyActivity extends Activity {
     TimePicker TPSilence;
     TimePicker TPUnsilence;
     SharedPreferences preferences;
-    final String TIME_START = "time_start";
-    final String TIME_END = "time_end";
+    final String TIME_START_HOUR = "time_start_hour";
+    final String TIME_START_MINUTE = "time_start_minute";
+    final String TIME_END_HOUR = "time_end_hour";
+    final String TIME_END_MINUTE = "time_end_minute";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -30,21 +32,42 @@ public class MyActivity extends Activity {
         Button schedule = (Button) findViewById(R.id.start);
         Button unschedule = (Button) findViewById(R.id.end);
 
+        TPSilence = (TimePicker) findViewById(R.id.SetSilenceTime);
+        TPUnsilence = (TimePicker) findViewById(R.id.SetUnsilenceTime);
+
+        /**
+         * Make instance of SharedPreferences to save information about time
+         * when to start and end silence mode
+         * and make this information private
+         */
+        preferences = getSharedPreferences("goodnight", MODE_PRIVATE);
+
+        /**
+         * If the time of change mode is set, put it's value into TimePicker
+         */
+        if(preferences.contains(TIME_START_HOUR) && preferences.contains(TIME_START_MINUTE)
+                && preferences.contains(TIME_END_HOUR) && preferences.contains(TIME_END_MINUTE)) {
+            TPSilence.setCurrentHour(preferences.getInt(TIME_START_HOUR, 1));
+            TPSilence.setCurrentMinute(preferences.getInt(TIME_START_MINUTE, 1));
+            TPUnsilence.setCurrentHour(preferences.getInt(TIME_END_HOUR, 1));
+            TPUnsilence.setCurrentMinute(preferences.getInt(TIME_END_MINUTE, 1));
+        }
+
         schedule.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View arg0) {
 
-
-                TPSilence = (TimePicker) findViewById(R.id.SetSilenceTime);
-                TPUnsilence = (TimePicker) findViewById(R.id.SetUnsilenceTime);
-
-                preferences = getSharedPreferences("goodnight", MODE_PRIVATE);
-
+                /**
+                 * Set user's settings into variable of SharedPreferences
+                 */
                 SharedPreferences.Editor ed = preferences.edit();
-                ed.putString(TIME_START, TPSilence.getCurrentHour() + ":" + TPSilence.getCurrentMinute());
-                ed.putString(TIME_END, TPUnsilence.getCurrentHour() + ":" + TPUnsilence.getCurrentMinute());
+                ed.putInt(TIME_START_HOUR, TPSilence.getCurrentHour());
+                ed.putInt(TIME_START_MINUTE, TPSilence.getCurrentMinute());
+                ed.putInt(TIME_END_HOUR, TPUnsilence.getCurrentHour());
+                ed.putInt(TIME_END_MINUTE, TPUnsilence.getCurrentMinute());
                 ed.commit();
+
                 /**
                  * create new calendar instance
                  */
@@ -76,14 +99,14 @@ public class MyActivity extends Activity {
                 Calendar sixCalendar = Calendar.getInstance();
 
                 /**
-                 * set the time to 6AM
+                 * set the time to end silence mode
                  */
                 sixCalendar.set(Calendar.HOUR_OF_DAY, TPUnsilence.getCurrentHour());
                 sixCalendar.set(Calendar.MINUTE, TPUnsilence.getCurrentMinute());
                 sixCalendar.set(Calendar.SECOND, 15);
 
                 /**
-                 * create a pending intent to be called at 6 AM
+                 * create a pending intent to be called at end of silence mode
                  */
                 Intent alarmIntentUp = new Intent(MyActivity.this, UnsilenceBroadcastReceiver.class);
                 PendingIntent sixPI = PendingIntent.getBroadcast(MyActivity.this, 0, alarmIntentUp, 0);
@@ -106,11 +129,14 @@ public class MyActivity extends Activity {
                  */
                 AlarmManager am = (AlarmManager) MyActivity.this.getSystemService(ALARM_SERVICE);
 
+                /**
+                 * Clear user's settings
+                 */
                 preferences = getSharedPreferences("goodnight", MODE_PRIVATE);
                 SharedPreferences.Editor ed = preferences.edit();
-                ed.putString(TIME_START, "Time is not set");
-                ed.putString(TIME_END, "Time is not set");
+                ed.clear();
                 ed.commit();
+
                 /**
                  * build intent for midnight
                  */
