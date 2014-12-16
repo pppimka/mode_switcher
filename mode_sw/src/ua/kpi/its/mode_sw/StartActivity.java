@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 /**
@@ -21,7 +22,13 @@ public class StartActivity extends Activity {
     final String TIME_START_MINUTE = "time_start_minute";
     final String TIME_END_HOUR = "time_end_hour";
     final String TIME_END_MINUTE = "time_end_minute";
-
+    CheckBox monday;
+    CheckBox tuesday;
+    CheckBox wednesday;
+    CheckBox thursday;
+    CheckBox friday;
+    CheckBox saturday;
+    CheckBox sunday;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -31,13 +38,19 @@ public class StartActivity extends Activity {
         changeSettings = (Button) findViewById(R.id.changeSettings);
         timeStart = (TextView) findViewById(R.id.timeStart);
         timeEnd = (TextView) findViewById(R.id.timeEnd);
-
+        monday = (CheckBox) findViewById(R.id.setMonday);
+        tuesday = (CheckBox) findViewById(R.id.setTuesday);
+        wednesday = (CheckBox) findViewById(R.id.setWednesday);
+        thursday = (CheckBox) findViewById(R.id.setThursday);
+        friday = (CheckBox) findViewById(R.id.setFriday);
+        saturday = (CheckBox) findViewById(R.id.setSaturday);
+        sunday = (CheckBox) findViewById(R.id.setSunday);
 
         changeSettings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
 
-                /**
+                /*
                  * Go to activity where user can set it's own settings
                  */
                 Intent intent = new Intent(StartActivity.this, MyActivity.class);
@@ -49,7 +62,7 @@ public class StartActivity extends Activity {
     protected void onResume() {
         super.onResume();
 
-        /**
+        /*
          * Show user's settings in case they are set
          * in other way there is no information to be shown
          */
@@ -67,6 +80,28 @@ public class StartActivity extends Activity {
         } else {
             timeStart.setText("-");
             timeEnd.setText("-");
+        }
+
+        if(preferences.contains("MONDAY") && preferences.getBoolean("MONDAY", false) == true){
+            monday.setChecked(true);
+        }
+        if(preferences.contains("TUESDAY") && preferences.getBoolean("TUESDAY", false) == true){
+            tuesday.setChecked(true);
+        }
+        if(preferences.contains("WEDNESDAY") && preferences.getBoolean("WEDNESDAY", false) == true){
+            wednesday.setChecked(true);
+        }
+        if(preferences.contains("THURSDAY") && preferences.getBoolean("THURSDAY", false) == true){
+            thursday.setChecked(true);
+        }
+        if(preferences.contains("FRIDAY") && preferences.getBoolean("FRIDAY", false) == true){
+            friday.setChecked(true);
+        }
+        if(preferences.contains("SATURDAY") && preferences.getBoolean("SATURDAY", false) == true){
+            saturday.setChecked(true);
+        }
+        if(preferences.contains("SUNDAY") && preferences.getBoolean("SUNDAY", false) == true){
+            sunday.setChecked(true);
         }
     }
 }

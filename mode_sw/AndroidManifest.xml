@@ -16,6 +16,11 @@
         <activity android:name="MyActivity"
                   android:label="@string/app_name">
         </activity>
+        <receiver android:name=".DayRepeating" >
+            <intent-filter>
+                <action android:name="ua.kpi.its.mode_sw.DayRepeating" />
+            </intent-filter>
+        </receiver>
         <receiver android:name=".SilenceBroadcastReceiver" ></receiver>
         <receiver android:name=".UnsilenceBroadcastReceiver"></receiver>
     </application>
