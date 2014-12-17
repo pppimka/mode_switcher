@@ -14,27 +14,62 @@ import android.widget.TextView;
  */
 public class StartActivity extends Activity {
 
-    Button changeSettings;
-    TextView timeStart;
-    TextView timeEnd;
-    SharedPreferences preferences;
-    final String TIME_START_HOUR = "time_start_hour";
-    final String TIME_START_MINUTE = "time_start_minute";
-    final String TIME_END_HOUR = "time_end_hour";
-    final String TIME_END_MINUTE = "time_end_minute";
-    CheckBox monday;
-    CheckBox tuesday;
-    CheckBox wednesday;
-    CheckBox thursday;
-    CheckBox friday;
-    CheckBox saturday;
-    CheckBox sunday;
+    /**
+     * Button that change this activity to activity where user can set his own settings
+     */
+    private Button changeSettings;
+
+    /**
+     * Text that show time where silence mode is starts
+     */
+    private TextView timeStart;
+
+    /**
+     * Text that show time where unsilence mode is starts
+     */
+    private TextView timeEnd;
+
+    /**
+     * CheckBox contains if monday box is checked
+     */
+    private CheckBox monday;
+
+    /**
+     * CheckBox contains if tuesday box is checked
+     */
+    private CheckBox tuesday;
+
+    /**
+     * CheckBox contains if wednesday box is checked
+     */
+    private CheckBox wednesday;
+
+    /**
+     * CheckBox contains if thursday box is checked
+     */
+    private CheckBox thursday;
+
+    /**
+     * CheckBox contains if friday box is checked
+     */
+    private CheckBox friday;
+
+    /**
+     * CheckBox contains if saturday box is checked
+     */
+    private CheckBox saturday;
+
+    /**
+     * CheckBox contains if sunday box is checked
+     */
+    private CheckBox sunday;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.first_page);
 
+        // Save all buttons in it's variables
         changeSettings = (Button) findViewById(R.id.changeSettings);
         timeStart = (TextView) findViewById(R.id.timeStart);
         timeEnd = (TextView) findViewById(R.id.timeEnd);
@@ -50,9 +85,7 @@ public class StartActivity extends Activity {
             @Override
             public void onClick(View arg0) {
 
-                /*
-                 * Go to activity where user can set it's own settings
-                 */
+                // Go to activity where user can set it's own settings
                 Intent intent = new Intent(StartActivity.this, MyActivity.class);
                 startActivity(intent);
             }
@@ -66,13 +99,13 @@ public class StartActivity extends Activity {
          * Show user's settings in case they are set
          * in other way there is no information to be shown
          */
-        preferences = getSharedPreferences("goodnight", MODE_PRIVATE);
-        if(preferences.contains(TIME_START_HOUR) && preferences.contains(TIME_START_MINUTE)
-                && preferences.contains(TIME_END_HOUR) && preferences.contains(TIME_END_MINUTE)) {
-            int intStartHour = preferences.getInt(TIME_START_HOUR, 0);
-            int intStartMinute = preferences.getInt(TIME_START_MINUTE, 0);
-            int intEndHour = preferences.getInt(TIME_END_HOUR, 0);
-            int intEndMinute = preferences.getInt(TIME_END_MINUTE, 0);
+        MyActivity.preferences = getSharedPreferences("goodnight", MODE_PRIVATE);
+        if(MyActivity.preferences.contains(MyActivity.TIME_START_HOUR) && MyActivity.preferences.contains(MyActivity.TIME_START_MINUTE)
+                && MyActivity.preferences.contains(MyActivity.TIME_END_HOUR) && MyActivity.preferences.contains(MyActivity.TIME_END_MINUTE)) {
+            int intStartHour = MyActivity.preferences.getInt(MyActivity.TIME_START_HOUR, 0);
+            int intStartMinute = MyActivity.preferences.getInt(MyActivity.TIME_START_MINUTE, 0);
+            int intEndHour = MyActivity.preferences.getInt(MyActivity.TIME_END_HOUR, 0);
+            int intEndMinute = MyActivity.preferences.getInt(MyActivity.TIME_END_MINUTE, 0);
             String stringStart = intStartHour + ":" + intStartMinute;
             String stringEnd = intEndHour + ":" + intEndMinute;
             timeStart.setText(stringStart);
@@ -81,26 +114,29 @@ public class StartActivity extends Activity {
             timeStart.setText("-");
             timeEnd.setText("-");
         }
-
-        if(preferences.contains("MONDAY") && preferences.getBoolean("MONDAY", false) == true){
+        /*
+         * If user's settings contain some day of repeating
+         * set checkBoxes of these days checked
+         */
+        if(MyActivity.preferences.contains("MONDAY") && MyActivity.preferences.getBoolean("MONDAY", false)){
             monday.setChecked(true);
         }
-        if(preferences.contains("TUESDAY") && preferences.getBoolean("TUESDAY", false) == true){
+        if(MyActivity.preferences.contains("TUESDAY") && MyActivity.preferences.getBoolean("TUESDAY", false)){
             tuesday.setChecked(true);
         }
-        if(preferences.contains("WEDNESDAY") && preferences.getBoolean("WEDNESDAY", false) == true){
+        if(MyActivity.preferences.contains("WEDNESDAY") && MyActivity.preferences.getBoolean("WEDNESDAY", false)){
             wednesday.setChecked(true);
         }
-        if(preferences.contains("THURSDAY") && preferences.getBoolean("THURSDAY", false) == true){
+        if(MyActivity.preferences.contains("THURSDAY") && MyActivity.preferences.getBoolean("THURSDAY", false)){
             thursday.setChecked(true);
         }
-        if(preferences.contains("FRIDAY") && preferences.getBoolean("FRIDAY", false) == true){
+        if(MyActivity.preferences.contains("FRIDAY") && MyActivity.preferences.getBoolean("FRIDAY", false)){
             friday.setChecked(true);
         }
-        if(preferences.contains("SATURDAY") && preferences.getBoolean("SATURDAY", false) == true){
+        if(MyActivity.preferences.contains("SATURDAY") && MyActivity.preferences.getBoolean("SATURDAY", false)){
             saturday.setChecked(true);
         }
-        if(preferences.contains("SUNDAY") && preferences.getBoolean("SUNDAY", false) == true){
+        if(MyActivity.preferences.contains("SUNDAY") && MyActivity.preferences.getBoolean("SUNDAY", false)){
             sunday.setChecked(true);
         }
     }
